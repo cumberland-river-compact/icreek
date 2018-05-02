@@ -1,0 +1,33 @@
+{
+  "name": "bootstrap-webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-serve",
+    "build": "webpack --mode production",
+    "test": "echo \"No tests specified.\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^8.4.1",
+    "css-loader": "^0.28.11",
+    "exports-loader": "^0.7.0",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.9.0",
+    "postcss-loader": "^2.1.4",
+    "prettier": "^1.12.1",
+    "sass-loader": "^7.0.1",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.1.2",
+    "webpack-serve": "^0.3.2"
+  },
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.3"
+  }
+}
