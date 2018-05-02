@@ -37,7 +37,7 @@ For **better browser support**:
 For a **better dev experience**:
 
 * Use hot reloading. *[[Webpack](https://webpack.js.org/guides/hot-module-replacement/) and [webpack-serve](https://github.com/webpack-contrib/webpack-serve)]*
-* Use consistent formatting. *[[Prettier.js](https://prettier.io/docs/en/why-prettier.html)]*
+* Use consistent formatting. *[[Prettier](https://prettier.io/docs/en/why-prettier.html)]*
 * Enforce JavaScript rules and formatting. *[[ESlint](https://eslint.org/)]*
 * Automatically add CSS vendor prefixes. *[[Autoprefixer](https://css-tricks.com/autoprefixer/)]*
 * Write modern JavaScript and transpile to ES5 as needed. *[[Babel](https://babeljs.io/)]*
@@ -62,3 +62,9 @@ We use ESLint. Run `npm run lint` to test our JS against
   how to code with Arrays, how to order imports, etc.)
 
 In cases where they conflict, Prettier formatting will override Airbnb.
+
+## Production Deployments
+Run `npm run build` to create a production build. The output goes into
+`dist/`. We can move these files into a
+[branch for GitHub Pages](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/)
+via [git-directory-deploy](https://github.com/X1011/git-directory-deploy).
