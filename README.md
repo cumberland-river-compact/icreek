@@ -51,3 +51,14 @@ npm install
 npm run dev # open http://localhost:8080
 ```
 
+## Code Quality
+We use ESLint. Run `npm run lint` to test our JS against
+[Prettier](https://prettier.io/docs/en/why-prettier.html) and the
+[Airbnb Style Guide](https://github.com/airbnb/javascript).
+
+* Prettier is all about formatting (number of spaces,
+  where to place line breaks, etc.)
+* Airbnb has both formatting and non-formatting rules (number of spaces,
+  how to code with Arrays, how to order imports, etc.)
+
+In cases where they conflict, Prettier formatting will override Airbnb.
