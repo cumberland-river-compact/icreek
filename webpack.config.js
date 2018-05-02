@@ -4,15 +4,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: './src/app.js',
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[hash].js',
     path: path.resolve(__dirname, 'dist'),
   },
-  mode: 'development', // override this with `webpack --mode production`
+  mode: 'development', // override as needed with `webpack --mode production`
   plugins: [
     new HtmlWebpackPlugin({
       // Load a custom template (lodash by default)
       template: './src/index.html',
-      inject: false,
+      inject: false, // do not auto-inject, index.html specifies the location
     }),
   ],
   module: {
