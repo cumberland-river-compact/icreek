@@ -42,3 +42,12 @@ For a **better dev experience**:
 * Automatically add CSS vendor prefixes. *[[Autoprefixer](https://css-tricks.com/autoprefixer/)]*
 * Write modern JavaScript and transpile to ES5 as needed. *[[Babel](https://babeljs.io/)]*
 * Create debug source maps for local dev environments. *[Webpack]*
+
+## Getting Started
+```Shell
+git clone https://github.com/cumberland-river-compact/icreek.git
+cd icreek
+npm install
+npm run dev # open http://localhost:8080
+```
+
