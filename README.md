@@ -16,7 +16,7 @@ them if their benefit is substantial.
 
 For **better performance**:
 
-* Bundle, and minify assets for faster page loads and reduced bandwidth
+* Bundle and minify assets for faster page loads and reduced bandwidth
   requirements. This is especially important on mobile devices and low
   bandwidth connections. *[Webpack]*
 * Use small libraries when possible. *[[Leaflet](http://leafletjs.com/) vs. Esri JavaScript API]*
@@ -38,7 +38,7 @@ For a **better dev experience**:
 
 * Use hot reloading. *[[Webpack](https://webpack.js.org/guides/hot-module-replacement/) and [webpack-serve](https://github.com/webpack-contrib/webpack-serve)]*
 * Use consistent formatting. *[[Prettier](https://prettier.io/docs/en/why-prettier.html)]*
-* Enforce JavaScript rules and formatting. *[[ESlint](https://eslint.org/)]*
+* Enforce JavaScript rules and formatting. *[[ESLint](https://eslint.org/)]*
 * Automatically add CSS vendor prefixes. *[[Autoprefixer](https://css-tricks.com/autoprefixer/)]*
 * Write modern JavaScript and transpile to ES5 as needed. *[[Babel](https://babeljs.io/)]*
 * Create debug source maps for local dev environments. *[Webpack]*
@@ -59,7 +59,7 @@ We use ESLint. Run `npm run lint` to test our JS against
 * Prettier is all about formatting (number of spaces,
   where to place line breaks, etc.)
 * Airbnb has both formatting and non-formatting rules (number of spaces,
-  how to code with Arrays, how to order imports, etc.)
+  how to code with `Array`, how to order imports, etc.)
 
 In cases where they conflict, Prettier formatting will override Airbnb.
 
