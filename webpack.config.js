@@ -7,7 +7,7 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
-  mode: "development", // override this with `webpack --mode production`
+  mode: 'development', // override this with `webpack --mode production`
   plugins: [
     new HtmlWebpackPlugin({
       // Load a custom template (lodash by default)
@@ -17,6 +17,14 @@ module.exports = {
   ],
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          // Transpile our JavaScript down to ES5 for better browser support.
+          loader: 'babel-loader',
+        },
+      },
       {
         test: /\.(scss)$/,
         use: [

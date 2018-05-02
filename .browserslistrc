@@ -1,0 +1,5 @@
+# Browsers that we support, see https://github.com/browserslist/browserslist
+# Run `npx browserslist` in this directory to see which browsers match.
+
+> 1% in US
+IE 10 # for now
