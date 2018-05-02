@@ -8,7 +8,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   mode: "development", // override this with `webpack --mode production`
-  devtool: 'source-map', // any "source-map"-like devtool is possible
   plugins: [
     new HtmlWebpackPlugin({
       // Load a custom template (lodash by default)
