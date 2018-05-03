@@ -1,6 +1,42 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// Transpile our JavaScript down to ES5 for better browser support.
+const babelLoader = {
+  loader: 'babel-loader',
+};
+// Add CSS to the DOM by injecting a `<style>` tag.
+const styleLoader = {
+  loader: 'style-loader',
+};
+
+// Interpret `@import` and `url()` like `import/require()` and resolve them.
+const cssLoader = {
+  loader: 'css-loader',
+  options: {
+    sourceMap: true,
+  },
+};
+
+// Process CSS with PostCSS.
+const postCssLoader = {
+  loader: 'postcss-loader',
+  options: {
+    sourceMap: true,
+    plugins: function() {
+      return [require('autoprefixer')];
+    },
+  },
+};
+
+// Load SASS/SCSS files and transpile them to CSS.
+const sassLoader = {
+  loader: 'sass-loader',
+  options: {
+    sourceMap: true,
+  },
+};
+
 module.exports = {
   entry: './src/app.js',
   output: {
@@ -20,43 +56,11 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          // Transpile our JavaScript down to ES5 for better browser support.
-          loader: 'babel-loader',
-        },
+        use: babelLoader,
       },
       {
         test: /\.(scss)$/,
-        use: [
-          {
-            // Adds CSS to the DOM by injecting a `<style>` tag
-            loader: 'style-loader',
-          },
-          {
-            // Interprets `@import` and `url()` like `import/require()` and will resolve them
-            loader: 'css-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-          {
-            // Loader for webpack to process CSS with PostCSS
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true,
-              plugins: function() {
-                return [require('autoprefixer')];
-              },
-            },
-          },
-          {
-            // Loads a SASS/SCSS file and compiles it to CSS
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-        ],
+        use: [styleLoader, cssLoader, postCssLoader, sassLoader],
       },
     ],
   },
