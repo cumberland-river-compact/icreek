@@ -64,7 +64,8 @@ We use ESLint. Run `npm run lint` to test our JS against
 In cases where they conflict, Prettier formatting will override Airbnb.
 
 ## Production Deployments
-Run `npm run build` to create a production build. The output goes into
-`dist/`. We can move these files into a
-[branch for GitHub Pages](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/)
+1. Run `npm run build` to create a production build. The output goes into
+`dist/`.
+2. Run `./deploy.sh` to deploy to
+[GitHub Pages](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/)
 via [git-directory-deploy](https://github.com/X1011/git-directory-deploy).
