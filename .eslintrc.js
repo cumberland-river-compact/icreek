@@ -1,4 +1,8 @@
 module.exports = {
+  env: {
+    // ESLint sources globals from https://github.com/sindresorhus/globals/blob/master/globals.json
+    browser: true,
+  },
   extends: [
     // Lint against AirBnB styles, https://github.com/airbnb/javascript
     'airbnb-base',
