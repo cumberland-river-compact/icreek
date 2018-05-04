@@ -2,14 +2,15 @@
 // following `import "@babel/polyfill"` with requires for `@babel/polyfill`
 // based on environment, see https://github.com/babel/babel/tree/master/packages/babel-preset-env
 import '@babel/polyfill';
-import './scss/app.scss';
+import './scss/main.scss';
 
-// This function is to demonstrate Babel.
-// Search for "World" in the dist/ output bundle to see what has changed.
-(function() {
-  const transpileThis = () => {
+// This is our main UI controller class
+class ViewController {
+  // Initialize the app
+  constructor() {
     const s = 'Hello, World!';
     console.log(s);
-  };
-  transpileThis();
-})();
+  }
+}
+
+window.ctrl = new ViewController();

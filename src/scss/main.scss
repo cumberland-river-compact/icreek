@@ -1,0 +1,12 @@
+// 3rd party styles (./vendor)
+@import 'vendor/bootstrap';
+
+// Modules override vendor stuff (./modules)
+@import 'modules/variables';
+@import 'modules/mixins';
+
+// Layout and components override vendor stuff (./partials)
+@import 'partials/base';
+@import 'partials/header';
+@import 'partials/footer';
+

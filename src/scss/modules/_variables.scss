@@ -1,0 +1,21 @@
+// Branding colors extracted from https://cumberlandrivercompact.org
+$logo-dark-blue: #3d5571;  // a purple blue
+$logo-light-blue: #579bb3; // a subdued aqua blue
+$middle-blue: #a2d8e9;     // a grayish blue between the two logo colors
+$alice-blue: #A2D8E9;      // a light blue, not pure alice blue, but close
+$light-gray: #D3DCE2;      // a pretty standard light gray
+$gray: #91a2ab;            // a pretty standard gray
+$slate-gray: #91a2ab;      // a dark gray, not pure slate gray, but close
+
+// The following screen sizes are from Bootstrap 3, converted
+// from Less to Sass.
+
+// 1. Extra small screen / phone
+$screen-xs: 480px;
+$screen-xs-min: $screen-xs;
+$screen-phone: $screen-xs-min;
+
+// 2. Small screen / tablet
+$screen-sm: 768px;
+$screen-sm-min: $screen-sm;
+$screen-tablet: $screen-sm-min;

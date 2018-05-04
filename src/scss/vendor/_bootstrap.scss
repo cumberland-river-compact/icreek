@@ -5,19 +5,15 @@
 // Look in node_modules/bootstrap/scss/bootstrap.scss for the full list of
 // available modules.
 
-// Required
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-
-// Optional, but common
-@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/functions"; // required
+@import "~bootstrap/scss/variables"; // required
+@import "~bootstrap/scss/mixins";    // required
+@import "~bootstrap/scss/reboot";    // normalizes the baseline browser styles
+@import "~bootstrap/scss/utilities"; // required by nav/navbar
+@import "~bootstrap/scss/type";      // typography
 // @import "~bootstrap/scss/root";
-@import "~bootstrap/scss/type";
 // @import "~bootstrap/scss/images";
-// @import "~bootstrap/scss/code";
-@import "~bootstrap/scss/grid";
-@import "~bootstrap/scss/utilities";
+// @import "~bootstrap/scss/grid";
 
 // Components we use
 @import "~bootstrap/scss/nav";

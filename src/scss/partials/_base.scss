@@ -1,0 +1,150 @@
+// While main.scss creates a global state, we don't rely on that.
+// Each module should import what it requires.
+@import "../modules/variables";
+
+body {
+  background-color: $logo-light-blue;
+}
+
+// #dashboard defines a page with left/right side panels and a main center content.
+// It looks like a standard "Holy Grail Layout", see http://codepen.io/robert-claypool/pen/dOzYBa
+// and https://philipwalton.github.io/solved-by-flexbox/demos/holy-grail/
+#dashboard {
+  /*
+  Good flexbox resources:
+  https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+  https://scotch.io/tutorials/a-visual-guide-to-css3-flexbox-properties
+  */
+  display: flex;
+  /*
+  We use "column" for the header, wrapper, and footer.
+  We use "row" for children of the wrapper: sidebar, main, sidebar
+  */
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+nav {
+  width: 100%;
+}
+
+div.wrapper {
+  /* The default flex-direction of "row" is what we want. */
+  display: flex;
+  /*
+  The following "flex" directive applies to this wrapper
+  in relation to its parent (the body)...
+  1: Our wrapper should fill remaining available vertical space of the body.
+  0: Don't allow it to shrink less than its content; a scrollbar should appear if needed.
+  auto: The default value. It seems to work well.
+  */
+  flex: 1 0 auto;
+}
+
+main {
+  flex: 1 1 auto;
+  /*
+  Our order is:
+  1 --> info sidebar (aside)
+  2 --> main content
+  3 --> settings sidebar (aside)
+  */
+  order: 2;
+  /*
+  We prefer rem over em except in rare cases where the size
+  actually should depend on the parent's computed font-size.
+  */
+  padding: 1rem;
+}
+
+#info-sidebar {
+  /* Put this on the left */
+  order: 1;
+}
+
+#settings-sidebar {
+  /* Put this on the right */
+  order: 3;
+}
+
+#settings-sidebar,
+#info-sidebar {
+  /*
+  18rem is the width of our columns.
+  They are fixed; don't grow or shrink them.
+  */
+  flex: 0 0 18rem;
+  /*
+  Set the overflow hidden to compensate for
+  an ugly margin/padding 5000px hack.
+  https://stackoverflow.com/a/8451485/23566
+  */
+  overflow: hidden;
+}
+
+#settings-sidebar.closed,
+#info-sidebar.closed {
+  display: none;
+}
+
+/*
+Add negative margin to push main under the open sidebars.
+This works since main is given a lower z-index.
+*/
+#settings-sidebar.overlay.open ~ main {
+  margin-right: -18rem;
+  z-index: 1;
+}
+
+#info-sidebar.overlay.open ~ main {
+  margin-left: -18rem;
+  z-index: 1;
+}
+
+#settings-sidebar.overlay,
+#info-sidebar.overlay {
+  z-index: 2;
+}
+
+#settings-sidebar-menu,
+#info-sidebar-menu {
+  /*
+  This margin/padding hack is for browsers like
+  Safari which do not properly extend the flexbox
+  item height of our sidebars using `height: 100%;`
+  https://stackoverflow.com/a/8451485/23566
+  */
+  margin-bottom: -5000px;
+  /* Any large number will do */
+  padding-bottom: 5000px;
+}
+
+.browserupgrade {
+   margin: 0.2em 0;
+   background: #fbbd08;
+   color: #000;
+   padding: 1em 0;
+   width: 100%;
+   z-index: 4; /* higher than the navbar, footer and sidebar */
+   position: fixed;
+   text-align: center;
+   bottom: 0;
+   height: 5em
+}
+
+/*
+It's recommended to prefix media queries with "only" if you want to hide
+their styles from old browsers. https://stackoverflow.com/a/8595600/23566
+*/
+@media only screen and (max-width: 767px) {
+  /*
+  hidden-sm-down is a "responsive visibility utility"
+  copied in from Bootstrap 4.
+  */
+  .hidden-sm-down {
+    display: none !important;
+  }
+  main {
+    padding: 0.5rem;
+  }
+}

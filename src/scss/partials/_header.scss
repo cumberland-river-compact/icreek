@@ -1,0 +1,13 @@
+// While main.scss creates a global state, we don't rely on that.
+// Each module should import what it requires.
+@import "../modules/variables";
+
+nav {
+  background-color: $logo-dark-blue;
+  color: white;
+}
+
+nav a {
+  color: $alice-blue;
+}
+
