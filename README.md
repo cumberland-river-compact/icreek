@@ -1,5 +1,5 @@
-iCreek "vNext"
-==============
+[iCreek](https://cumberland-river-compact.github.io/icreek/) "vNext"
+====================================================================
 Hackathon environments are great for creativity and prototyping, but not so
 great for building *sustainable*, *rock-solid* applications. This experimental
 rewrite will attempt to improve performance, browser support, and dev
