@@ -10,3 +10,23 @@
 @import 'partials/header';
 @import 'partials/footer';
 
+// TODO: Don't bundle CSS into the JS bundle.
+//       Configure Webpack accordingly.
+
+#noscript-padding {
+  margin-top: 3.5rem;
+}
+
+#noscript-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #fff;
+  background-color: #a52a2a;
+  padding: 5px 0px;
+}
