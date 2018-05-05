@@ -4,12 +4,30 @@
 import '@babel/polyfill';
 import './scss/main.scss';
 
+const VISIBILITY = Object.freeze({
+  closed: 'closed',
+  open: 'open',
+});
+
+function toggleInfo() {
+  const sidebar = document.querySelector('#info-sidebar');
+  sidebar.classList.toggle(VISIBILITY.open);
+  sidebar.classList.toggle(VISIBILITY.closed);
+}
+
+function toggleSettings() {
+  const sidebar = document.querySelector('#settings-sidebar');
+  sidebar.classList.toggle(VISIBILITY.open);
+  sidebar.classList.toggle(VISIBILITY.closed);
+}
+
 // This is our main UI controller class
 class ViewController {
   // Initialize the app
   constructor() {
-    const s = 'Hello, World!';
-    console.log(s);
+    // Side panels are open, close them until needed.
+    toggleInfo();
+    toggleSettings();
   }
 }
 
