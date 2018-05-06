@@ -59,11 +59,15 @@ module.exports = function(env, argv) {
       path: path.resolve(__dirname, 'dist'),
     },
     mode: 'development', // override as needed with `webpack --mode production`
+    devtool: 'source-map', // allow UglifyJS to create source maps
     optimization: {
       minimizer: [
         new UglifyJsPlugin({
           cache: true,
           parallel: true,
+          // Make source maps even for production while the site is under
+          // heavy development.
+          sourceMap: true,
         }),
         new OptimizeCssAssetsPlugin({
           // By default, this uses https://github.com/ben-eb/cssnano which
