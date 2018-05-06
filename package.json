@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-serve",
-    "build": "rm dist/index.html dist/*.js dist/*.css && webpack --mode production",
+    "build": "(rm dist/index.html dist/*.js dist/*.css || true) && webpack --mode production",
     "test": "echo \"No tests specified.\" && exit 1",
     "lint": "eslint --ext .js src",
     "check-eslint": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
