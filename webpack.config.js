@@ -4,6 +4,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // If we don't do this, then CSS stays in the JS bundle and the site will be
 // unstyled when JS is disabled.
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// While Webpack 5 is likely to come with a built-in CSS minimizer, with
+// Webpack 4 we need need optimize-css-assets-webpack-plugin.
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// Setting optimization.minimizer overrides the defaults provided by Webpack,
+// so explicit addition of UglifyJS is required too.
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 // Transpile our JavaScript down to ES5 for better browser support.
 const babelLoader = {
@@ -53,6 +59,19 @@ module.exports = function(env, argv) {
       path: path.resolve(__dirname, 'dist'),
     },
     mode: 'development', // override as needed with `webpack --mode production`
+    optimization: {
+      minimizer: [
+        new UglifyJsPlugin({
+          cache: true,
+          parallel: true,
+        }),
+        new OptimizeCssAssetsPlugin({
+          // By default, this uses https://github.com/ben-eb/cssnano which
+          // reads our .browserslistrc
+          cssProcessorOptions: { discardComments: { removeAll: true } },
+        }),
+      ],
+    },
     plugins: [
       new HtmlWebpackPlugin({
         // Load a custom template (lodash by default)
