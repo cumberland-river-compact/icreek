@@ -48,6 +48,16 @@ const sassLoader = {
   },
 };
 
+// Allow us to import HTML templates into JS component files
+const htmlLoader = {
+  loader: 'html-loader',
+  options: {
+    minimize: false,
+    removeComments: false,
+    collapseWhitespace: false,
+  },
+};
+
 // Export a function so that we can have access to arguments passed to Webpack.
 // Args are needed to know if the desired mode is production or development.
 // https://webpack.js.org/configuration/configuration-types/#exporting-a-function
@@ -79,7 +89,7 @@ module.exports = function(env, argv) {
     plugins: [
       new HtmlWebpackPlugin({
         // Load a custom template (lodash by default)
-        template: './src/index.html',
+        template: './src/index.template',
         inject: false, // do not auto-inject, index.html specifies the location
       }),
       new MiniCssExtractPlugin({
@@ -123,6 +133,10 @@ module.exports = function(env, argv) {
             postCssLoader,
             sassLoader,
           ],
+        },
+        {
+          test: /\.html$/,
+          use: htmlLoader,
         },
       ],
     },

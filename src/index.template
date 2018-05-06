@@ -8,7 +8,9 @@
     <title>iCreek</title>
     <meta name="description" content="iCreek provides health information for waterways within the Cumberland River Basin">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.chunks.main.css %>">
+    <% for (var css in htmlWebpackPlugin.files.css) { %>
+    <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
+    <% } %>
   </head>
   <body>
     <noscript>
@@ -32,10 +34,8 @@
       <div class="wrapper">
         <aside id="info-sidebar"></aside>
         <aside id="settings-sidebar"></aside>
-        <!--
-        We place main after the sidebars so that sibling
-        CSS selectors like '#settings-sidebar + main' will work.
-        -->
+        <!-- We place main after the sidebars so that sibling -->
+        <!-- CSS selectors like '#settings-sidebar + main' will work. -->
         <main>
           <div class="jumbotron">
             <h1>Welcome to iCreek "vNext"</h1>
@@ -46,6 +46,7 @@
               for more info.
             </p>
           </div>
+          <div id="app"></div>
         </main>
       </div>
       <footer>
@@ -55,7 +56,9 @@
         </div>
       </footer>
     </div>
-    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
+    <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+    <% } %>
   </body>
 </html>
 

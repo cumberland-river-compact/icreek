@@ -3,6 +3,7 @@
 // based on environment, see https://github.com/babel/babel/tree/master/packages/babel-preset-env
 import '@babel/polyfill';
 import './scss/main.scss';
+import InfoPanel from './components/info-panel/info-panel';
 
 const VISIBILITY = Object.freeze({
   closed: 'closed',
@@ -28,6 +29,13 @@ class ViewController {
     // Side panels are open, close them until needed.
     toggleInfo();
     toggleSettings();
+
+    this.initializeComponents();
+  }
+
+  initializeComponents() {
+    // Initialize Info Panel
+    this.infoComponent = new InfoPanel('info-sidebar');
   }
 }
 
