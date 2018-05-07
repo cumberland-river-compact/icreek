@@ -3,7 +3,7 @@
 // based on environment, see https://github.com/babel/babel/tree/master/packages/babel-preset-env
 import '@babel/polyfill';
 import './scss/main.scss';
-import InfoPanel from './components/info-panel/info-panel';
+import Info from './components/info/info';
 
 const VISIBILITY = Object.freeze({
   closed: 'closed',
@@ -35,7 +35,7 @@ class ViewController {
 
   initializeComponents() {
     // Initialize Info Panel
-    this.infoComponent = new InfoPanel('info-sidebar');
+    this.infoComponent = new Info('info-sidebar');
   }
 }
 
