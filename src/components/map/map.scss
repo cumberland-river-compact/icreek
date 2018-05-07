@@ -1,0 +1,13 @@
+@import '../../scss/modules/_variables.scss';
+
+.map-container {
+  background: $slate-gray;
+  height: 100%;
+  width: 100%;
+
+  // @media (max-width: 767px) {
+  //   .leaflet-bottom {
+  //     bottom: calc(#{$footerHeight} + 10px);
+  //   }
+  // }
+}

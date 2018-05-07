@@ -1,5 +1,6 @@
 // 3rd party styles (./vendor)
 @import 'vendor/bootstrap';
+@import "~leaflet/dist/leaflet.css";
 
 // Modules override vendor stuff (./modules)
 @import 'modules/variables';

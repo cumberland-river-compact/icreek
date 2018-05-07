@@ -36,17 +36,16 @@
         <aside id="settings-sidebar"></aside>
         <!-- We place main after the sidebars so that sibling -->
         <!-- CSS selectors like '#settings-sidebar + main' will work. -->
-        <main>
-          <div class="jumbotron">
-            <h1>Welcome to iCreek "vNext"</h1>
-            <p class="lead">
-              This experimental rewrite will attempt to improve performance,
-              browser support, and dev experience of our original iCreek hackathon
-              app. See <a href="https://github.com/cumberland-river-compact/icreek/blob/master/README.md">README.md</a>
-              for more info.
-            </p>
-          </div>
-          <div id="app"></div>
+        <main id="map">
+          <!-- <div class="jumbotron"> -->
+          <!--   <h1>Welcome to iCreek "vNext"</h1> -->
+          <!--   <p class="lead"> -->
+          <!--     This experimental rewrite will attempt to improve performance, -->
+          <!--     browser support, and dev experience of our original iCreek hackathon -->
+          <!--     app. See <a href="https://github.com/cumberland-river-compact/icreek/blob/master/README.md">README.md</a> -->
+          <!--     for more info. -->
+          <!--   </p> -->
+          <!-- </div> -->
         </main>
       </div>
       <footer>

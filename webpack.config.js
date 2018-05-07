@@ -48,6 +48,11 @@ const sassLoader = {
   },
 };
 
+// URL loader to resolve data-urls at build time
+const urlLoader = {
+  loader: 'url-loader?limit=100000'
+}
+
 // Allow us to import HTML templates into JS component files
 const htmlLoader = {
   loader: 'html-loader',
@@ -133,6 +138,10 @@ module.exports = function(env, argv) {
             postCssLoader,
             sassLoader,
           ],
+        },
+        {
+          test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+          use: urlLoader,
         },
         {
           test: /\.html$/,

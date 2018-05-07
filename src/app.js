@@ -4,6 +4,7 @@
 import '@babel/polyfill';
 import './scss/main.scss';
 import Info from './components/info/info';
+import Map from './components/map/map';
 
 const VISIBILITY = Object.freeze({
   closed: 'closed',
@@ -36,6 +37,7 @@ class ViewController {
   initializeComponents() {
     // Initialize Info Panel
     this.infoComponent = new Info('info-sidebar');
+    this.mapComponent = new Map('map');
   }
 }
 
