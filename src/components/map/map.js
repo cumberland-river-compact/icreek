@@ -1,4 +1,6 @@
 import L from 'leaflet';
+import { basemapLayer } from 'esri-leaflet';
+
 import './map.scss';
 import template from './map.html';
 import Component from '../component';
@@ -20,17 +22,12 @@ export default class Map extends Component {
     this.map = L.map(this.refs.mapContainer, {
       center: [36.166, -86.774], // Nashville, TN
       zoom: 12,
-      maxZoom: 18, // 18 is max for OSM
+      maxZoom: 19, // 19 is max for Esri Topographic
       minZoom: 2,
     });
 
     this.map.zoomControl.setPosition('bottomright');
-
-    // Render OSM basemap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
+    basemapLayer('Topographic').addTo(this.map);
 
     this.map.invalidateSize();
   }
