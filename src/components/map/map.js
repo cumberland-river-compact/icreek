@@ -29,6 +29,6 @@ export default class Map extends Component {
     this.map.zoomControl.setPosition('bottomright');
     basemapLayer('Topographic').addTo(this.map);
 
-    this.map.invalidateSize();
+    this.map.invalidateSize(true);
   }
 }
