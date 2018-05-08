@@ -19,7 +19,7 @@ export default class Map extends Component {
   constructor(mapPlaceholderId, props) {
     super(mapPlaceholderId, props, template);
 
-    const defaultBasemap = basemapLayer('Imagery');
+    const defaultBasemap = basemapLayer('Imagery', { detectRetina: true });
     this.map = L.map(this.refs.mapContainer, {
       center: [36.166, -86.774], // Nashville, TN
       zoom: 12,
