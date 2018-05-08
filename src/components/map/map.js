@@ -29,6 +29,11 @@ export default class Map extends Component {
     this.map.zoomControl.setPosition('bottomright');
     basemapLayer('Topographic').addTo(this.map);
 
-    this.map.invalidateSize(true);
+    // With 6x CPU throttling from Chrome DevTools, at least 250ms is needed
+    // for our map to be placed and styled; invalidateSize must wait to detect
+    // the map's final size.
+    setTimeout(() => {
+      this.map.invalidateSize(true);
+    }, 350);
   }
 }
