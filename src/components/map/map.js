@@ -19,15 +19,24 @@ export default class Map extends Component {
   constructor(mapPlaceholderId, props) {
     super(mapPlaceholderId, props, template);
 
+    const defaultBasemap = basemapLayer('Imagery');
     this.map = L.map(this.refs.mapContainer, {
       center: [36.166, -86.774], // Nashville, TN
       zoom: 12,
       maxZoom: 19, // 19 is max for Esri Topographic
       minZoom: 2,
+      layers: [defaultBasemap],
     });
 
     this.map.zoomControl.setPosition('bottomright');
-    basemapLayer('Topographic').addTo(this.map);
+
+    const layers = {
+      'Imagery Map': defaultBasemap,
+      'Topo Map': basemapLayer('Topographic'),
+      'Streets Map': basemapLayer('Streets'),
+    };
+
+    L.control.layers(layers).addTo(this.map);
 
     // With 6x CPU throttling from Chrome DevTools, at least 250ms is needed
     // for our map to be placed and styled; invalidateSize must wait to detect
