@@ -23,7 +23,7 @@ export default class Map extends Component {
     this.map = L.map(this.refs.mapContainer, {
       center: [36.166, -86.774], // Nashville, TN
       zoom: 12,
-      maxZoom: 19, // 19 is max for Esri Topographic
+      maxZoom: 18, // 18 is max for Esri Imagery
       minZoom: 2,
       layers: [defaultBasemap],
     });
