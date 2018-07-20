@@ -31,9 +31,12 @@ export default class Map extends Component {
     this.map.zoomControl.setPosition('bottomright');
 
     const layers = {
-      'Imagery Map': defaultBasemap,
-      'Topo Map': basemapLayer('Topographic'),
-      'Streets Map': basemapLayer('Streets'),
+      Imagery: defaultBasemap,
+      // While Esri has a 'Streets' basemap, their 'Topographic' map has
+      // cleaner line work and also includes streets. Calling it 'Streets'
+      // instead of 'Topo' might be technically wrong, but should make
+      // more sense for a majority of users.
+      Streets: basemapLayer('Topographic'),
     };
 
     L.control.layers(layers).addTo(this.map);
@@ -92,13 +95,10 @@ export default class Map extends Component {
       // streams as the context.
       function changeStyle(layersControlEvent) {
         switch (layersControlEvent.name) {
-          case 'Imagery Map':
+          case 'Imagery':
             this.setStyle(getDefaultStreamsStyle);
             break;
-          case 'Topo Map':
-            this.setStyle(getAltStreamsStyle);
-            break;
-          case 'Streets Map':
+          case 'Streets':
             this.setStyle(getAltStreamsStyle);
             break;
           default:
