@@ -82,9 +82,9 @@ export default class Map extends Component {
 
     const streams = featureLayer({
       url: streamsUrl,
-      // Keep minZoom at around 13.
+      // Keep minZoom at around 12.
       // Zooming out grabs too much data and eats Esri service credits.
-      minZoom: 13,
+      minZoom: 12,
       style: getDefaultStreamsStyle,
     }).addTo(this.map);
 
