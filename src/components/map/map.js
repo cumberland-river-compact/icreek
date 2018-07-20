@@ -59,7 +59,7 @@ export default class Map extends Component {
         default:
           c = '#bdbdbd';
       }
-      return { color: c, opacity: 0.9, weight: 5 };
+      return { color: c, opacity: 0.9, weight: 4 };
     };
 
     const getAltStreamsStyle = feature => {
@@ -77,7 +77,7 @@ export default class Map extends Component {
         default:
           c = '#757575';
       }
-      return { color: c, opacity: 0.9, weight: 5 };
+      return { color: c, opacity: 0.9, weight: 4 };
     };
 
     const streams = featureLayer({
@@ -109,7 +109,7 @@ export default class Map extends Component {
                 color: null,
                 outline: {
                   color: [0, 0, 0, 255],
-                  width: 9,
+                  width: 8,
                   type: 'esriSLS',
                   style: 'esriSLSSolid',
                 },
