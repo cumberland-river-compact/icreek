@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import { basemapLayer, featureLayer } from 'esri-leaflet';
+import { basemapLayer, featureLayer, dynamicMapLayer } from 'esri-leaflet';
 
 import './map.scss';
 import template from './map.html';
@@ -88,6 +88,44 @@ export default class Map extends Component {
       style: getDefaultStreamsStyle,
     }).addTo(this.map);
 
+    const catchmentsUrl =
+      'https://inlandwaters.geoplatform.gov/arcgis/rest/services/NHDPlus/NHDPlus/MapServer';
+
+    const catchments = dynamicMapLayer({
+      url: catchmentsUrl,
+      minZoom: 12,
+      opacity: 0.4,
+      dynamicLayers: [
+        {
+          id: 6,
+          name: 'Catchment',
+          source: { type: 'mapLayer', mapLayerId: 6 },
+          drawingInfo: {
+            renderer: {
+              type: 'simple',
+              label: '',
+              description: '',
+              symbol: {
+                color: null,
+                outline: {
+                  color: [0, 0, 0, 255],
+                  width: 9,
+                  type: 'esriSLS',
+                  style: 'esriSLSSolid',
+                },
+                type: 'esriSFS',
+                style: 'esriSFSSolid',
+              },
+            },
+          },
+          minScale: 288896,
+          maxScale: 0,
+          definitionExpression: "NHDPLUS_REGION='05'",
+        },
+      ],
+      layers: [6],
+    }).addTo(this.map);
+
     // Stream colors must be adjusted for dark vs light basemaps.
     this.map.on(
       'baselayerchange',
@@ -96,16 +134,18 @@ export default class Map extends Component {
       function changeStyle(layersControlEvent) {
         switch (layersControlEvent.name) {
           case 'Imagery':
-            this.setStyle(getDefaultStreamsStyle);
+            this.streams.setStyle(getDefaultStreamsStyle);
+            this.catchments.setOpacity(0.4);
             break;
           case 'Streets':
-            this.setStyle(getAltStreamsStyle);
+            this.streams.setStyle(getAltStreamsStyle);
+            this.catchments.setOpacity(0.15);
             break;
           default:
-            this.setStyle(getDefaultStreamsStyle);
+            throw Error(`Basemap '${layersControlEvent.name}' not recognized`);
         }
       },
-      streams
+      { streams, catchments }
     );
 
     streams.bindPopup(layer =>
