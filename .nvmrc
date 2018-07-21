@@ -1,0 +1,7 @@
+v10.7.0
+
+# nvm use, nvm install, nvm exec, nvm run, and nvm will
+# respect an .nvmrc when a version is not supplied.
+#
+# 10.x.x is or will be LTS, a long term supported version
+
