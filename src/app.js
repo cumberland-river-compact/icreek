@@ -3,7 +3,11 @@
 // based on environment, see https://github.com/babel/babel/tree/master/packages/babel-preset-env
 import '@babel/polyfill';
 import './scss/main.scss';
+import Navigo from 'navigo';
 import Info from './components/info/info';
+import About from './components/about/about';
+import Home from './components/home/home';
+import NotFound from './components/not-found/not-found';
 import Map from './components/map/map';
 
 const VISIBILITY = Object.freeze({
@@ -31,13 +35,43 @@ class ViewController {
     toggleInfo();
     toggleSettings();
 
-    this.initializeComponents();
+    this.initializeRoutes();
   }
 
-  initializeComponents() {
-    // Initialize Info Panel
-    this.infoComponent = new Info('info-sidebar');
-    this.mapComponent = new Map('map');
+  initializeRoutes() {
+    const baseTag = document.querySelector('base');
+    const root = baseTag.attributes.href.value;
+    // If useHash is true, then the router uses an old routing approach with
+    // hash in the URL. Navigo falls back to this mode if there's no History API.
+    const useHash = false;
+    // No need to use #! for client side routes.
+    // https://webmasters.googleblog.com/2015/10/deprecating-our-ajax-crawling-scheme.html
+    const hash = '#';
+    const router = new Navigo(root, useHash, hash);
+    router.on({
+      home: () => {
+        this.homeComponent = new Home('content');
+      },
+      about: () => {
+        this.aboutComponent = new About('content');
+      },
+      map: () => {
+        this.mapComponent = new Map('content');
+        this.infoComponent = new Info('info-sidebar');
+      },
+      '*': () => {
+        // TODO: Switch to the Home component once search is working.
+        this.mapComponent = new Map('content');
+        this.infoComponent = new Info('info-sidebar');
+      },
+    });
+
+    // Set the 404 route.
+    router.notFound(() => {
+      this.notFoundComponent = new NotFound('content');
+    });
+
+    router.resolve();
   }
 }
 

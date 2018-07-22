@@ -1,4 +1,13 @@
 const path = require('path');
+// Our site is Single Page Application (SPA) with client side (in browser)
+// routing. For this reason, we want index.html to be loaded for the root
+// URL `/` as well as nested routes such as `/home`, `/about`, and `/map`.
+// connect-history-api-fallback is a tiny middleware to address this issue
+// when running the app locally with webpack-serve. (We have the same SPA
+// routing issue with GitHub Pages hosting, but that is not addressed here.)
+const history = require('connect-history-api-fallback');
+// koa-connect is needed to run connect-history-api-fallback middleware
+const convert = require('koa-connect');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // Output styles to a CSS file that is referenced in index.html <head>.
 // If we don't do this, then CSS stays in the JS bundle and the site will be
@@ -50,8 +59,8 @@ const sassLoader = {
 
 // URL loader to resolve data-urls at build time
 const urlLoader = {
-  loader: 'url-loader?limit=100000'
-}
+  loader: 'url-loader?limit=100000',
+};
 
 // Allow us to import HTML templates into JS component files
 const htmlLoader = {
@@ -72,6 +81,24 @@ module.exports = function(env, argv) {
     output: {
       filename: 'bundle.[hash].js',
       path: path.resolve(__dirname, 'dist'),
+      // For production, the app is hosted at https://cumberland-river-compact.github.io/icreek/
+      // Keep this in sync with HtmlWebpackPlugin baseUrl
+      publicPath: process.env.NODE_ENV === 'development' ? '/' : '/icreek/'
+    },
+    serve: {
+      add: (app, middleware, options) => {
+        const historyOptions = {
+          // ... see: https://github.com/bripkens/connect-history-api-fallback#options
+        };
+        console.log('Adding history API fallback...');
+        app.use(convert(history(historyOptions)));
+      },
+      // content: [__dirname],
+      // dev: {
+      //   publicPath: '/build/',
+      // },
+      // Hot is true by default, but set explicitly just for clarity.
+      hot: true,
     },
     mode: 'development', // override as needed with `webpack --mode production`
     devtool: 'source-map', // enable JS source maps for development builds
@@ -95,6 +122,9 @@ module.exports = function(env, argv) {
         // Load a custom template (lodash by default)
         template: './src/index.template',
         inject: false, // do not auto-inject, index.html specifies the location
+        // For production, the app is hosted at https://cumberland-river-compact.github.io/icreek/
+        // Keep this in sync with output.publicPath
+        baseUrl: process.env.NODE_ENV == 'development' ? '/' : '/icreek/'
       }),
       new MiniCssExtractPlugin({
         // Check for the existence of argv because Webpack will supply
