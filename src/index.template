@@ -8,6 +8,7 @@
     <title>iCreek</title>
     <meta name="description" content="iCreek provides health information for waterways within the Cumberland River Basin">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="<%= htmlWebpackPlugin.options.baseUrl %>">
     <% for (var css in htmlWebpackPlugin.files.css) { %>
     <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
     <% } %>
@@ -19,9 +20,7 @@
     </noscript>
     <!-- IE 9 was the last version to support conditional comments -->
     <!-- http://stackoverflow.com/a/34331225 -->
-    <!--[if lte IE 9]>
-    <p>You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade</a> to improve your experience and security.</p>
-    <![endif]-->
+    <!--[if lte IE 9]><p>You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade</a> to improve your experience and security.</p><![endif]-->
     <div id="dashboard">
       <header>
         <nav class="navbar navbar-expand-md fixed-top">
@@ -36,16 +35,7 @@
         <aside id="settings-sidebar"></aside>
         <!-- We place main after the sidebars so that sibling -->
         <!-- CSS selectors like '#settings-sidebar + main' will work. -->
-        <main id="map">
-          <!-- <div class="jumbotron"> -->
-          <!--   <h1>Welcome to iCreek "vNext"</h1> -->
-          <!--   <p class="lead"> -->
-          <!--     This experimental rewrite will attempt to improve performance, -->
-          <!--     browser support, and dev experience of our original iCreek hackathon -->
-          <!--     app. See <a href="https://github.com/cumberland-river-compact/icreek/blob/master/README.md">README.md</a> -->
-          <!--     for more info. -->
-          <!--   </p> -->
-          <!-- </div> -->
+        <main id="content">
         </main>
       </div>
       <footer>
