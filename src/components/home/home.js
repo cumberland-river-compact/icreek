@@ -15,5 +15,13 @@ export default class Home extends Component {
    */
   constructor(homePlaceholderId, props) {
     super(homePlaceholderId, props, template);
+
+    this.refs.addressInput.addEventListener('input', () =>
+      console.log('Input!')
+    );
+
+    this.refs.searchButton.addEventListener('click', () =>
+      console.log('Clicked!')
+    );
   }
 }
