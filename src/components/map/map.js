@@ -49,6 +49,7 @@ export default class Map extends Component {
       this.refs.intro.style.display = 'none';
       this.refs.map.classList.add('is-visible');
       this.refs.wrapper.classList.remove('centered');
+      // TODO: is 200ms a good delay for slow devices?
       setTimeout(() => {
         this.map.invalidateSize();
       }, 200);
@@ -69,7 +70,8 @@ export default class Map extends Component {
       Streets: basemapLayer('Topographic'),
     };
 
-    L.control.layers(layers).addTo(this.map);
+    this.map.layersControl = L.control.layers(layers).addTo(this.map);
+    this.map.layersControl.setPosition('bottomleft');
 
     const streamsUrl =
       'https://services9.arcgis.com/RwTMq0XxCxqj91gL/arcgis/rest/services/iCreek_Streams/FeatureServer/0';
