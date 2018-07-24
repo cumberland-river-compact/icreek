@@ -169,7 +169,7 @@ module.exports = function(env, argv) {
           ],
         },
         {
-          test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+          test: /\.(png|woff|woff2|eot|ttf|svg|gif)$/,
           use: urlLoader,
         },
         {

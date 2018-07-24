@@ -30,7 +30,16 @@ export default class Map extends Component {
     });
 
     // Add address search to the map.
-    this.searchControl = geosearch().addTo(this.map);
+    const southWest = L.latLng(34.77771, -90.50537);
+    const northEast = L.latLng(37.97884, -81.40869);
+    const bounds = L.latLngBounds(southWest, northEast);
+    const searchOptions = {
+      placeholder: 'Search within Cumberland River Basin',
+      collapseAfterResult: false,
+      useMapBounds: false,
+      searchBounds: bounds,
+    };
+    this.searchControl = geosearch(searchOptions).addTo(this.map);
 
     // Add an empty layer group to show results on the map.
     this.searchResults = L.layerGroup().addTo(this.map);

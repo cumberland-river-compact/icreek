@@ -1,0 +1,18 @@
+@import "~esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css";
+
+.geocoder-control {
+  // Keep the geocoder control visible even if its map is not.
+  visibility: visible;
+}
+
+.geocoder-control > input {
+  min-width: 25rem;
+  min-height: 2.75rem;
+  font-size: 1.25rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.geocoder-control-suggestions {
+  min-width: 25rem;
+}

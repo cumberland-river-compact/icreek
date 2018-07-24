@@ -13,7 +13,7 @@
 #introduction {
   color: white;
 
-  // 10px are needed to align with geocoder textbox
+  // Exactly 10px are needed to align with geocoder textbox
   margin-left: 10px;
   margin-right: 10px;
 
@@ -47,19 +47,4 @@
   height: 100%;
   width: 100%;
   visibility: visible;
-}
-
-.geocoder-control {
-  // The geocoder control is a child element of map-container, so we
-  // must override the inherited visibiltity to make it visible on
-  // initial page load.
-  visibility: visible;
-}
-
-.geocoder-control > input {
-  min-width: 25rem;
-  min-height: 2.2rem;
-  font-size: 1.3rem;
-  padding-left: 0.4rem;
-  padding-right: 0.4rem;
 }
