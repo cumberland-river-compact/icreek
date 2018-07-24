@@ -31,3 +31,22 @@
   background-color: #a52a2a;
   padding: 5px 0px;
 }
+
+h1 {
+  font-size: 3.2rem;
+}
+
+p.message {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+a {
+  color: $alice-blue;
+}
+
+a:hover {
+  color: darken($alice-blue, 15%);
+  text-decoration: none;
+}

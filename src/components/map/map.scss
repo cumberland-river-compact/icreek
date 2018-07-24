@@ -1,8 +1,29 @@
 @import '../../scss/modules/_variables.scss';
 
-.map-container {
-  background: $slate-gray;
+#map-wrapper {
   height: 100%;
+  width: 100%;
+}
+
+#map-wrapper.centered {
+  max-width: 65rem;
+  margin: auto;
+}
+
+#introduction {
+  color: white;
+
+  // 10px are needed to align with geocoder textbox
+  margin-left: 10px;
+  margin-right: 10px;
+
+  .highlight {
+    color: $alice-blue;
+  }
+}
+
+.leaflet-container {
+  height: 5rem;
   width: 100%;
 
   // @media (max-width: 767px) {
@@ -10,4 +31,35 @@
   //     bottom: calc(#{$footerHeight} + 10px);
   //   }
   // }
+}
+
+#map {
+  height: 10rem;
+  width: 100%;
+  border: 1px solid #444;
+
+  // Initially we hide the map.
+  // It is made visible once the user searches for an address.
+  visibility: hidden;
+}
+
+#map.is-visible {
+  height: 100%;
+  width: 100%;
+  visibility: visible;
+}
+
+.geocoder-control {
+  // The geocoder control is a child element of map-container, so we
+  // must override the inherited visibiltity to make it visible on
+  // initial page load.
+  visibility: visible;
+}
+
+.geocoder-control > input {
+  min-width: 45rem;
+  min-height: 2.4rem;
+  font-size: 1.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }

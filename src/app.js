@@ -6,7 +6,6 @@ import './scss/main.scss';
 import Navigo from 'navigo';
 import Info from './components/info/info';
 import About from './components/about/about';
-import Home from './components/home/home';
 import NotFound from './components/not-found/not-found';
 import Map from './components/map/map';
 
@@ -49,9 +48,6 @@ class ViewController {
     const hash = '#';
     const router = new Navigo(root, useHash, hash);
     router.on({
-      home: () => {
-        this.homeComponent = new Home('content');
-      },
       about: () => {
         this.aboutComponent = new About('content');
       },
@@ -60,7 +56,6 @@ class ViewController {
         this.infoComponent = new Info('info-sidebar');
       },
       '*': () => {
-        // TODO: Switch to the Home component once search is working.
         this.mapComponent = new Map('content');
         this.infoComponent = new Info('info-sidebar');
       },
