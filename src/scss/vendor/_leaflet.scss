@@ -1,0 +1,6 @@
+@import '~leaflet/dist/leaflet.css';
+
+.leaflet-bottom .leaflet-control-layers {
+  // Avoid overlap with the map attribution text.
+  margin-bottom: 25px;
+}

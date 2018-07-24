@@ -23,12 +23,14 @@
     <!--[if lte IE 9]><p>You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade</a> to improve your experience and security.</p><![endif]-->
     <div id="dashboard">
       <header>
+        <!--
         <nav class="navbar navbar-expand-md fixed-top">
           <a class="navbar-brand" href="#">&nbsp;</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
         </nav>
+        -->
       </header>
       <div class="wrapper">
         <aside id="info-sidebar"></aside>
