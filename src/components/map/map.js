@@ -1,5 +1,6 @@
 import L from 'leaflet';
 import { basemapLayer, featureLayer, dynamicMapLayer } from 'esri-leaflet';
+import { geosearch } from 'esri-leaflet-geocoder';
 
 import './map.scss';
 import template from './map.html';
@@ -20,12 +21,32 @@ export default class Map extends Component {
     super(mapPlaceholderId, props, template);
 
     const defaultBasemap = basemapLayer('Imagery', { detectRetina: false });
-    this.map = L.map(this.refs.mapContainer, {
+    this.map = L.map(this.refs.map, {
       center: [36.166, -86.774], // Nashville, TN
       zoom: 14,
       maxZoom: 18, // 18 is max for Esri Imagery
       minZoom: 2,
       layers: [defaultBasemap],
+    });
+
+    // Add address search to the map.
+    this.searchControl = geosearch().addTo(this.map);
+
+    // Add an empty layer group to show results on the map.
+    this.searchResults = L.layerGroup().addTo(this.map);
+
+    // Listen for results and add every result to the map.
+    this.searchControl.on('results', data => {
+      this.refs.intro.style.display = 'none';
+      this.refs.map.classList.add('is-visible');
+      this.refs.wrapper.classList.remove('centered');
+      setTimeout(() => {
+        this.map.invalidateSize();
+      }, 200);
+      this.searchResults.clearLayers();
+      for (let i = data.results.length - 1; i >= 0; i--) {
+        this.searchResults.addLayer(L.marker(data.results[i].latlng));
+      }
     });
 
     this.map.zoomControl.setPosition('bottomright');

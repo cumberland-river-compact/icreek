@@ -3,7 +3,7 @@
 @import "../modules/variables";
 
 body {
-  background-color: $logo-light-blue;
+  background-color: darken($logo-dark-blue, 15%);
 }
 
 // #dashboard defines a page with left/right side panels and a main center content.
@@ -54,7 +54,10 @@ main {
   We prefer rem over em except in rare cases where the size
   actually should depend on the parent's computed font-size.
   */
-  padding: 1rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
 }
 
 #info-sidebar {
@@ -145,6 +148,9 @@ their styles from old browsers. https://stackoverflow.com/a/8595600/23566
     display: none !important;
   }
   main {
-    padding: 0.5rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
