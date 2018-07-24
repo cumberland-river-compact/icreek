@@ -23,7 +23,7 @@ export default class Map extends Component {
     const defaultBasemap = basemapLayer('Imagery', { detectRetina: false });
     this.map = L.map(this.refs.map, {
       center: [36.166, -86.774], // Nashville, TN
-      zoom: 14,
+      zoom: 15,
       maxZoom: 18, // 18 is max for Esri Imagery
       minZoom: 2,
       layers: [defaultBasemap],
@@ -34,7 +34,7 @@ export default class Map extends Component {
     const northEast = L.latLng(37.97884, -81.40869);
     const bounds = L.latLngBounds(southWest, northEast);
     const searchOptions = {
-      placeholder: 'Search within Cumberland River Basin',
+      placeholder: 'Search within the River Basin',
       collapseAfterResult: false,
       useMapBounds: false,
       searchBounds: bounds,

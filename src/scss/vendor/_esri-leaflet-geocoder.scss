@@ -16,3 +16,30 @@
 .geocoder-control-suggestions {
   min-width: 25rem;
 }
+
+/*
+It's recommended to prefix media queries with "only" if you want to hide
+their styles from old browsers. https://stackoverflow.com/a/8595600/23566
+*/
+@media only screen and (max-width: 767px) {
+  .geocoder-control > input {
+    min-width: 20.5rem;
+    font-size: 1rem;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+  }
+  
+  .geocoder-control-suggestions {
+    min-width: 20.5rem;
+  }
+}
+
+@media only screen and (max-width: 321px) {
+  .geocoder-control > input {
+    min-width: 17.75rem;
+  }
+  
+  .geocoder-control-suggestions {
+    min-width: 17.75rem;
+  }
+}

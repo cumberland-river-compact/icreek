@@ -13,9 +13,9 @@
 #introduction {
   color: white;
 
-  // Exactly 10px are needed to align with geocoder textbox
-  margin-left: 10px;
-  margin-right: 10px;
+  // 13px are needed to align with geocoder textbox
+  margin-left: 13px;
+  margin-right: 13px;
 
   .highlight {
     color: $alice-blue;
@@ -23,18 +23,11 @@
 }
 
 .leaflet-container {
-  height: 5rem;
   width: 100%;
-
-  // @media (max-width: 767px) {
-  //   .leaflet-bottom {
-  //     bottom: calc(#{$footerHeight} + 10px);
-  //   }
-  // }
 }
 
 #map {
-  height: 10rem;
+  height: 8rem;
   width: 100%;
   border: 1px solid #444;
 
