@@ -29,15 +29,16 @@ export default class Map extends Component {
       layers: [defaultBasemap],
     });
 
-    // Add address search to the map.
+    // Add the geocoder search textbox.
+    // Restrict results to an approx. bounding box of Cumberland River Basin.
     const southWest = L.latLng(34.77771, -90.50537);
     const northEast = L.latLng(37.97884, -81.40869);
-    const bounds = L.latLngBounds(southWest, northEast);
+    const basinArea = L.latLngBounds(southWest, northEast);
     const searchOptions = {
       placeholder: 'Search within the River Basin',
       collapseAfterResult: false,
       useMapBounds: false,
-      searchBounds: bounds,
+      searchBounds: basinArea,
     };
     this.searchControl = geosearch(searchOptions).addTo(this.map);
 
