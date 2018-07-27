@@ -48,7 +48,7 @@
       </footer>
     </div>
     <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
-    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+    <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
     <% } %>
   </body>
 </html>
