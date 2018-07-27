@@ -1,6 +1,15 @@
 import L from 'leaflet';
-import { basemapLayer, featureLayer, dynamicMapLayer } from 'esri-leaflet';
+import {
+  basemapLayer,
+  featureLayer,
+  dynamicMapLayer,
+  identifyFeatures,
+} from 'esri-leaflet';
 import { geosearch } from 'esri-leaflet-geocoder';
+// Import only the Turf objects we use.
+// @turf/turf imports everything and bloats the app ~500kB
+import flip from '@turf/flip';
+import bbox from '@turf/bbox';
 
 import './map.scss';
 import template from './map.html';
@@ -20,6 +29,11 @@ export default class Map extends Component {
   constructor(mapPlaceholderId, props) {
     super(mapPlaceholderId, props, template);
 
+    const streamsUrl =
+      'https://services9.arcgis.com/RwTMq0XxCxqj91gL/arcgis/rest/services/iCreek_Streams/FeatureServer/0';
+    const catchmentsUrl =
+      'https://inlandwaters.geoplatform.gov/arcgis/rest/services/NHDPlus/NHDPlus/MapServer';
+
     const defaultBasemap = basemapLayer('Imagery', { detectRetina: false });
     this.map = L.map(this.refs.map, {
       center: [36.166, -86.774], // Nashville, TN
@@ -28,6 +42,71 @@ export default class Map extends Component {
       minZoom: 2,
       layers: [defaultBasemap],
     });
+
+    this.hideIntro = () => {
+      // Hide our introductory 'Home Page' message.
+      const introStyle = this.refs.intro.style;
+      if (introStyle.display !== 'none') {
+        introStyle.display = 'none';
+      }
+    };
+
+    this.showMap = (callback, location) => {
+      // The classList.add() function will ignore classes that already exists
+      // in attribute of the element, so we don't need to check for that.
+      this.refs.map.classList.add('is-visible');
+      // Likewise, the remove() function ignores classes that don't exist.
+      this.refs.wrapper.classList.remove('centered');
+
+      // Since the map's footprint has changed, force a Leaflet redraw.
+      setTimeout(() => {
+        // TODO: Call invalidate only if the map was hidden and centered.
+        this.map.invalidateSize();
+        callback(location);
+      }, 200);
+    };
+
+    this.showCatchment = location => {
+      // Find the catchment containing this location.
+      identifyFeatures({
+        url: catchmentsUrl,
+      })
+        .on(this.map)
+        .at(location.latlng)
+        .precision(6)
+        .tolerance(1)
+        .layers('visible:6')
+        .run((error, featureCollection) => {
+          if (
+            featureCollection &&
+            featureCollection.features &&
+            featureCollection.features.length > 0
+          ) {
+            // If catchments overlap, then multiple are returned but we only use the first.
+            const geoJSON = featureCollection.features[0].geometry;
+            // Leaflet expects [lat,lng] coordinate pairs but geoJSON is [lng,lat]
+            const catchment = flip(geoJSON);
+            const bounds = bbox(catchment);
+            const catchmentSouthWest = L.latLng(bounds[0], bounds[1]);
+            const catchmentNorthEast = L.latLng(bounds[2], bounds[3]);
+            const catchmentArea = L.latLngBounds(
+              catchmentSouthWest,
+              catchmentNorthEast
+            );
+            const polygon = L.polygon(catchment.coordinates[0], {
+              color: 'white',
+              weight: 3,
+              opacity: 1.0,
+              fillColor: 'white',
+              fillOpacity: 0,
+            });
+            this.searchResults.addLayer(polygon);
+            this.map.fitBounds(catchmentArea);
+          } else {
+            throw Error('No catchments found for this search.');
+          }
+        });
+    };
 
     // Add the geocoder search textbox.
     // Restrict results to an approx. bounding box of Cumberland River Basin.
@@ -39,24 +118,26 @@ export default class Map extends Component {
       collapseAfterResult: false,
       useMapBounds: false,
       searchBounds: basinArea,
+      allowMultipleResults: false,
+      zoomToResult: false,
     };
     this.searchControl = geosearch(searchOptions).addTo(this.map);
 
     // Add an empty layer group to show results on the map.
     this.searchResults = L.layerGroup().addTo(this.map);
 
-    // Listen for results and add every result to the map.
     this.searchControl.on('results', data => {
-      this.refs.intro.style.display = 'none';
-      this.refs.map.classList.add('is-visible');
-      this.refs.wrapper.classList.remove('centered');
-      // TODO: is 200ms a good delay for slow devices?
-      setTimeout(() => {
-        this.map.invalidateSize();
-      }, 200);
-      this.searchResults.clearLayers();
-      for (let i = data.results.length - 1; i >= 0; i--) {
-        this.searchResults.addLayer(L.marker(data.results[i].latlng));
+      // We assume 0 or 1 result (allowMultipleResults = false).
+      if (data.results && data.results.length > 0) {
+        // Clear graphics from any previous search.
+        this.searchResults.clearLayers();
+        const location = data.results[0];
+        this.searchResults.addLayer(L.marker(location.latlng));
+
+        this.hideIntro();
+        this.showMap(this.showCatchment, location);
+      } else {
+        throw Error('No search results found.');
       }
     });
 
@@ -73,9 +154,6 @@ export default class Map extends Component {
 
     this.map.layersControl = L.control.layers(layers).addTo(this.map);
     this.map.layersControl.setPosition('bottomleft');
-
-    const streamsUrl =
-      'https://services9.arcgis.com/RwTMq0XxCxqj91gL/arcgis/rest/services/iCreek_Streams/FeatureServer/0';
 
     const getDefaultStreamsStyle = feature => {
       let c;
@@ -121,13 +199,10 @@ export default class Map extends Component {
       style: getDefaultStreamsStyle,
     }).addTo(this.map);
 
-    const catchmentsUrl =
-      'https://inlandwaters.geoplatform.gov/arcgis/rest/services/NHDPlus/NHDPlus/MapServer';
-
     const catchments = dynamicMapLayer({
       url: catchmentsUrl,
       minZoom: 12,
-      opacity: 0.4,
+      opacity: 0.25,
       dynamicLayers: [
         {
           id: 6,
@@ -142,7 +217,7 @@ export default class Map extends Component {
                 color: null,
                 outline: {
                   color: [0, 0, 0, 255],
-                  width: 8,
+                  width: 6,
                   type: 'esriSLS',
                   style: 'esriSLSSolid',
                 },
@@ -168,11 +243,11 @@ export default class Map extends Component {
         switch (layersControlEvent.name) {
           case 'Imagery':
             this.streams.setStyle(getDefaultStreamsStyle);
-            this.catchments.setOpacity(0.4);
+            this.catchments.setOpacity(0.25);
             break;
           case 'Streets':
             this.streams.setStyle(getAltStreamsStyle);
-            this.catchments.setOpacity(0.15);
+            this.catchments.setOpacity(0.1);
             break;
           default:
             throw Error(`Basemap '${layersControlEvent.name}' not recognized`);
