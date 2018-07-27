@@ -6,6 +6,10 @@ import {
   identifyFeatures,
 } from 'esri-leaflet';
 import { geosearch } from 'esri-leaflet-geocoder';
+// Import only the Turf objects we use.
+// @turf/turf imports everything and bloats the app ~500kB
+import flip from '@turf/flip';
+import bbox from '@turf/bbox';
 
 import './map.scss';
 import template from './map.html';
@@ -47,7 +51,7 @@ export default class Map extends Component {
       }
     };
 
-    this.showMap = () => {
+    this.showMap = (callback, location) => {
       // The classList.add() function will ignore classes that already exists
       // in attribute of the element, so we don't need to check for that.
       this.refs.map.classList.add('is-visible');
@@ -56,8 +60,52 @@ export default class Map extends Component {
 
       // Since the map's footprint has changed, force a Leaflet redraw.
       setTimeout(() => {
+        // TODO: Call invalidate only if the map was hidden and centered.
         this.map.invalidateSize();
+        callback(location);
       }, 200);
+    };
+
+    this.showCatchment = location => {
+      // Find the catchment containing this location.
+      identifyFeatures({
+        url: catchmentsUrl,
+      })
+        .on(this.map)
+        .at(location.latlng)
+        .precision(6)
+        .tolerance(1)
+        .layers('visible:6')
+        .run((error, featureCollection) => {
+          if (
+            featureCollection &&
+            featureCollection.features &&
+            featureCollection.features.length > 0
+          ) {
+            // If catchments overlap, then multiple are returned but we only use the first.
+            const geoJSON = featureCollection.features[0].geometry;
+            // Leaflet expects [lat,lng] coordinate pairs but geoJSON is [lng,lat]
+            const catchment = flip(geoJSON);
+            const bounds = bbox(catchment);
+            const catchmentSouthWest = L.latLng(bounds[0], bounds[1]);
+            const catchmentNorthEast = L.latLng(bounds[2], bounds[3]);
+            const catchmentArea = L.latLngBounds(
+              catchmentSouthWest,
+              catchmentNorthEast
+            );
+            const polygon = L.polygon(catchment.coordinates[0], {
+              color: 'white',
+              weight: 3,
+              opacity: 1.0,
+              fillColor: 'white',
+              fillOpacity: 0,
+            });
+            this.searchResults.addLayer(polygon);
+            this.map.fitBounds(catchmentArea);
+          } else {
+            throw Error('No catchments found for this search.');
+          }
+        });
     };
 
     // Add the geocoder search textbox.
@@ -71,7 +119,7 @@ export default class Map extends Component {
       useMapBounds: false,
       searchBounds: basinArea,
       allowMultipleResults: false,
-      zoomToResult: true,
+      zoomToResult: false,
     };
     this.searchControl = geosearch(searchOptions).addTo(this.map);
 
@@ -81,36 +129,13 @@ export default class Map extends Component {
     this.searchControl.on('results', data => {
       // We assume 0 or 1 result (allowMultipleResults = false).
       if (data.results && data.results.length > 0) {
-        const location = data.results[0];
-        this.searchResults.addLayer(L.marker(location.latlng));
-        this.hideIntro();
-        this.showMap();
-
         // Clear graphics from any previous search.
         this.searchResults.clearLayers();
+        const location = data.results[0];
+        this.searchResults.addLayer(L.marker(location.latlng));
 
-        // Find the catchment containing this location.
-        identifyFeatures({
-          url: catchmentsUrl,
-        })
-          .on(this.map)
-          .at(location.latlng)
-          .precision(6)
-          .tolerance(1)
-          .layers('visible:6')
-          .run((error, featureCollection, response) => {
-            if (
-              featureCollection &&
-              featureCollection.features &&
-              featureCollection.features.length > 0
-            ) {
-              // If catchments overlap, then multiple are returned but we only use the first.
-              // const catchment = featureCollection.features[0];
-              // this.map.fitBounds(catchment.geometry);
-            } else {
-              throw Error('No catchments found for this search.');
-            }
-          });
+        this.hideIntro();
+        this.showMap(this.showCatchment, location);
       } else {
         throw Error('No search results found.');
       }
@@ -177,7 +202,7 @@ export default class Map extends Component {
     const catchments = dynamicMapLayer({
       url: catchmentsUrl,
       minZoom: 12,
-      opacity: 0.4,
+      opacity: 0.25,
       dynamicLayers: [
         {
           id: 6,
@@ -192,7 +217,7 @@ export default class Map extends Component {
                 color: null,
                 outline: {
                   color: [0, 0, 0, 255],
-                  width: 8,
+                  width: 6,
                   type: 'esriSLS',
                   style: 'esriSLSSolid',
                 },
@@ -218,11 +243,11 @@ export default class Map extends Component {
         switch (layersControlEvent.name) {
           case 'Imagery':
             this.streams.setStyle(getDefaultStreamsStyle);
-            this.catchments.setOpacity(0.4);
+            this.catchments.setOpacity(0.25);
             break;
           case 'Streets':
             this.streams.setStyle(getAltStreamsStyle);
-            this.catchments.setOpacity(0.15);
+            this.catchments.setOpacity(0.1);
             break;
           default:
             throw Error(`Basemap '${layersControlEvent.name}' not recognized`);
