@@ -59,7 +59,10 @@ const sassLoader = {
 
 // URL loader to resolve data-urls at build time
 const urlLoader = {
-  loader: 'url-loader?limit=100000',
+  loader: 'url-loader',
+  options: {
+    limit: 100000,
+  },
 };
 
 // Allow us to import HTML templates into JS component files
@@ -83,7 +86,7 @@ module.exports = function(env, argv) {
       path: path.resolve(__dirname, 'dist'),
       // For production, the app is hosted at https://cumberland-river-compact.github.io/icreek/
       // Keep this in sync with HtmlWebpackPlugin baseUrl
-      publicPath: process.env.NODE_ENV === 'development' ? '/' : '/icreek/'
+      publicPath: process.env.NODE_ENV === 'development' ? '/' : '/icreek/',
     },
     serve: {
       add: (app, middleware, options) => {
@@ -124,7 +127,7 @@ module.exports = function(env, argv) {
         inject: false, // do not auto-inject, index.html specifies the location
         // For production, the app is hosted at https://cumberland-river-compact.github.io/icreek/
         // Keep this in sync with output.publicPath
-        baseUrl: process.env.NODE_ENV == 'development' ? '/' : '/icreek/'
+        baseUrl: process.env.NODE_ENV == 'development' ? '/' : '/icreek/',
       }),
       new MiniCssExtractPlugin({
         // Check for the existence of argv because Webpack will supply
