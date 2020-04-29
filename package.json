@@ -58,7 +58,7 @@
     "bootstrap": "^4.3.1",
     "esri-leaflet": "^2.2.4",
     "esri-leaflet-geocoder": "2.2.13",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "js-autocomplete": "^1.0.4",
     "leaflet": "^1.5.1",
     "navigo": "^7.1.2",
